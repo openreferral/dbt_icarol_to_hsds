@@ -1,0 +1,12 @@
+version: 2
+
+#  This is an example for connecting to Postgres. For documentation on other sources check here:
+#  https://docs.getdbt.com/docs/building-a-dbt-project/using-sources
+sources:
+  - name: [profile_name]
+    database: [database_name]
+    schema: [schema_name]
+    tables:
+      - name: [your_resource_table_name]
+      - name: [your_coverage_table_name]
+      - name: [your_taxonomy_table_name]
