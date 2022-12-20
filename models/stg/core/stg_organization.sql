@@ -1,7 +1,8 @@
+
 select
-    "{{ var('global_source_id') }}" as global_source_id,
-    time_created,
-    resource_agency_num as id,
+    tenant_id,
+    id,
+    source_id as source_organization_id,
     public_name as name,
     alternate_name as alternate_name,
     agency_description as description,

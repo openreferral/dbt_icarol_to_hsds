@@ -1,6 +1,13 @@
+{%- set tenant_id = var('tenant_id') -%}
+
 select
-    resource_agency_num,
-    parent_agency_num,
+    {{tenant_id}} as tenant_id,
+    {{ dbt_utils.surrogate_key([
+        tenant_id,
+        'resource_agency_num'
+    ]) }} as id,
+    cast(resource_agency_num as string) as source_id,
+    cast(parent_agency_num as string) as parent_agency_num,
     public_name,
     alternate_name,
     -- official_name,
@@ -88,7 +95,6 @@ select
     -- search_hints,
     -- coverage_area,
     -- coverage_area_text,
-    -- TODO: Reactivate this as soon as the data import is fixed. URGENT.
     -- eligibility,
     -- eligibility_adult,
     -- eligibility_child,
@@ -116,7 +122,6 @@ select
     -- source_of_funds,
     exclude_from_website,
     exclude_from_directory,
-    -- TODO: Add accessibility once we have data.
     -- disabilities_access,
     -- physical_location_description,
     -- bus_service_access,
@@ -127,7 +132,6 @@ select
     -- resource_info,
     documents_required,
     languages_offered,
-    -- TODO: Switch to structure list for filters once ready.
     -- languages_offered_list,
     -- availability_number_of_times,
     -- availability_frequency,
@@ -155,8 +159,8 @@ select
     -- available_for_referral,
     -- available_for_research,
     -- preferred_provider,
-    connects_to_site_num,
-    connects_to_program_num,
+    cast(connects_to_site_num as string) as connects_to_site_num,
+    cast(connects_to_program_num as string) as connects_to_program_num,
     -- language_of_record,
     -- current_workflow_step_code,
     -- volunteer_opportunities,
@@ -171,6 +175,10 @@ select
     -- taxonomy_codes,
     -- coverage,
     hours
+    -- custom_record_owner,
+    -- custom_update_process,
+    -- custom_record_subset,
+    -- custom_special_projects
 from {{ source('database', 'table_name') }}
 where agency_status = 'Active'
 and (exclude_from_website = 'No' or exclude_from_website is null or exclude_from_website = '')

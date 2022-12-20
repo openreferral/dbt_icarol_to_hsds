@@ -1,12 +1,12 @@
 # DBT boilerplate for converting iCarol to HSDS.
 
-iCarol exports resource data as HSDS, but it leaves much to be desired. We have open sourced this project so you can manually transform their default formatted export and get a much higher quality transformation result.
+iCarol exports resource data as HSDS, but it leaves much to be desired. We have open sourced this project so you can manually transform their default formatted export and get a much higher quality transformation to HSDS.
 
 ## How to get started.
 
 1. Clone or fork this repo.
-2. Install DBT on your local or deployed environment(s). You will be using DBT CLI: https://docs.getdbt.com/dbt-cli/install/overview.
-3. Don't forget to install the correct adapter(s) as well, for example `dbt-bigquery` or `dbt-postgres`.
+2. Install DBT on your local or deployed environment(s). USE DBT CLI: https://docs.getdbt.com/dbt-cli/install/overview.
+3. Don't forget to install adapter(s), for example `dbt-bigquery` or `dbt-postgres`.
 4. Set up your profile to connect to your data base: https://docs.getdbt.com/dbt-cli/configure-your-profile
 
 **Note:** If you are running DBT CLI you can optionally use `dbt init [project_name]` to get started. It will walk you through creating a profile. You may then copy over the models, and install the `dbt-utils` package: https://hub.getdbt.com/dbt-labs/dbt_utils/latest/.
@@ -22,13 +22,15 @@ This organization is based loosely on DBTs recommended method: https://discourse
 2. `models/stg` is where you start casting and renaming data. Staging may also be used for more advanced, intermediary transformations (see below).
 3. Create your final models for HSDS tables in the root of the `models` directory.
 
+**NOTE:** Best practices dictate that src should be no more than a strict model of source data. However, expediency in this case dictates adding tenant IDs and doing some low level casting in the source files in order to drastically DRY up code.
+
 ### How we chose our source tables for boilerplate.
 
 Most of the data needed from iCarol comes from the default `resources` table. There are fields to handle all data related to the HSDS core tables, including location, service, phone, service area, taxonomy, and more. It's _possible_ that you will only need the main table.
 
-However, we are providing boilerplate that gives an example of pulling service areas and taxonomies from separate default tables in iCarol and joining those, as this is a common use case.
+However, we are providing boilerplate that gives an example of pulling service areas and taxonomies from separate default tables in iCarol and joining those, as this is a common use case as well.
 
-Depending on your use case you will perhaps simplify that to just the `resource` tabe. If you do, you will need to update `schema.yml`, remove two of your `/models/src` files, and update the `models/stg`, at a minimum.
+Depending on your use case you will perhaps simplify that to just the `resource` tabe. If you do, you will need to update `schema.yml`, remove two of your `/models/src` files, and update references to those models in `models/stg`.
 
 ## Staging models.
 

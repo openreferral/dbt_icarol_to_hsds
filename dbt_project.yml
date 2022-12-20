@@ -2,12 +2,12 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'ne211_icarol_to_hsds'
+name: 'dbt_icarol_to_hsds'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'ne211_icarol_to_hsds'
+profile: 'dbt_icarol_to_hsds'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -26,7 +26,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 # Variables
 vars:
-  global_source_id: example_source_id_3kdnd8l459v
+  tenant_id: '"example_source_id"'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

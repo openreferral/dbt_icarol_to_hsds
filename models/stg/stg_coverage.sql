@@ -1,6 +1,18 @@
 select
-    "{{ var('global_source_id') }}" as global_source_id,
-    resource_id as program_id,
+    tenant_id,
+    -- Because this table is a 1:many relationship from the service table,
+    -- we need to create a surrogate key derived from values. There is no other
+    -- way to get a stable primary key.
+    {{ dbt_utils.surrogate_key([
+        'tenant_id',
+        'resource_id',
+        'city',
+        'country',
+        'county',
+        'state_province',
+        'zip_postal_code'
+    ]) }} as id,
+    resource_id as source_service_id,
     city,
     country,
     county,
